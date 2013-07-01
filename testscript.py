@@ -2,32 +2,20 @@ from requests import get, post, delete
 from json import dumps as write_json
 from pytz import utc
 from datetime import datetime, timedelta
+from scrambleapi.dateutils import to_seconds_string
 
 
 uri = "http://localhost:6543"
 
 
-date_format = "%Y-%m-%d %H:%M:%S %Z%z"
-
-
-epoch = datetime(1970, 1, 1, tzinfo=utc)
-
-
-def now():
+def utc_now():
     return datetime.now(tz=utc)
-
-
-def seconds_since_epoch(when=None):
-    if when is None:
-        when = now()
-    t = long(round((when - epoch).total_seconds()))
-    return t
 
 
 first_event = {
      "title": "Hack-a-thon",
      "description": "Bakersfield's first hackathon.",
-     "startDate": seconds_since_epoch(),
+     "startDate": to_seconds_string(utc_now()),
 }
 
 

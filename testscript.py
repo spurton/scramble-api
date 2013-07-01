@@ -28,3 +28,12 @@ event = get(uri + "/events/" + str(response.json()['id'])).json()
 # Assert the id is in the event id list.
 assert event['id'] in get(uri + "/events").json()['events']
 print get(uri + "/events").json()['events']
+
+
+# Fetch it back.
+assert event['id'] in get(uri + "/events", params={
+    'offset': 0,
+    'limit': 10**10,
+    'starts_before_date': long(first_event['startDate']) + 1,
+    'starts_on_or_after_date': first_event['startDate'],
+}).json()['events']

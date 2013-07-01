@@ -5,6 +5,7 @@ from pytz import utc
 
 from .utils import _401, _404
 from .model import DBSession, Event
+from .dateutils import from_seconds_string
 
 
 log = logging.getLogger(__name__)
@@ -40,9 +41,24 @@ def check_token(request):
 @events_service.get()
 def get_events(request):
     """ Returns a list of all events. """
+    filter_kwargs = {}
+    # @TODO: Validation.
+    if request.GET.get('starts_on_or_after_date', None):
+        filter_kwargs['starts_on_or_after_date'] = \
+            from_seconds_string(request.GET['starts_on_or_after_date'])
+    # @TODO: Validation.
+    if request.GET.get('starts_before_date', None):
+        filter_kwargs['starts_before_date'] = from_seconds_string(request.GET['starts_before_date'])
+    # @TODO: Validation.
+    if request.GET.get('limit', None):
+        filter_kwargs['limit'] = int(request.GET['limit'])
+    # @TODO: Validation.
+    if request.GET.get('offset', None):
+        filter_kwargs['offset'] = int(request.GET['offset'])
+    print filter_kwargs
     return {
         'events': [
-            event.id for event in Event.get_events()
+            event.id for event in Event.get_events(**filter_kwargs)
         ]
     }
 
@@ -67,6 +83,7 @@ def delete_event(request):
 
 @events_service.post(validators=check_token)
 def create_event(request):
+    # @TODO: Validation.
     event = Event.from_dict(request.json_body)
     DBSession.add(event)
     DBSession.commit()

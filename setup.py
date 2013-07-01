@@ -4,7 +4,6 @@ requires = [
     'pyramid',
     'pyramid_debugtoolbar',
     'waitress',
-    'redis',
     'cornice',
     'requests',
     'pytz',

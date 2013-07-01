@@ -1,6 +1,5 @@
 from pyramid.config import Configurator
 from pyramid.events import NewRequest
-from redis import StrictRedis
 from sqlalchemy import engine_from_config
 
 from .model import init_model, DBSession

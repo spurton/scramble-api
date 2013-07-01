@@ -14,10 +14,10 @@ and optional `endDate`.
 Returns a list of events sorted by startDate.
 
 Optional filtering:
-    starts_on_or_after_date - integer number of seconds since the epoch in UTC
-    starts_before_date - integer number of seconds since the epoch in UTC
-    limit - integer greater than zero
-    offset - integer greater than zero
+  - `starts_on_or_after_date`: integer number of seconds since the epoch in UTC
+  - `starts_before_date`: integer number of seconds since the epoch in UTC
+  - `limit`: integer greater than zero
+  - `offset`: integer greater than zero
 
 ### /api/event/{event_id}
 

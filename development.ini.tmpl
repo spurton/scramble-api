@@ -6,6 +6,8 @@
 [app:main]
 use = egg:scrambleapi
 
+sqlalchemy.url = postgresql://scrambleapi:scrambleapi@localhost:5432/scrambleapi
+
 pyramid.reload_templates = true
 pyramid.debug_authorization = false
 pyramid.debug_notfound = false

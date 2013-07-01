@@ -1,13 +1,22 @@
 from pyramid.config import Configurator
+from pyramid.events import NewRequest
 from redis import StrictRedis
+from sqlalchemy import engine_from_config
+
+from .model import init_model, DBSession
+
+
+def remove_session_callback(event):
+    # Clean up the sqlalchemy session after each request.
+    DBSession.remove()
 
 
 def main(global_config, **settings):
-    # @TODO: Move this information into the configuration file.
-    settings['redis'] = StrictRedis(host='localhost', port=6379, db=0)
+    engine = engine_from_config(settings, prefix="sqlalchemy.")
+    init_model(engine)
+
     config = Configurator(settings=settings)
-    def get_redis(request):
-        return request.registry.settings['redis']
-    config.add_request_method(get_redis, 'redis', reify=True)
+    config.add_subscriber(remove_session_callback, NewRequest)
     config.scan()
+
     return config.make_wsgi_app()

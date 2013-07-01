@@ -8,6 +8,9 @@ requires = [
     'cornice',
     'requests',
     'pytz',
+    'alembic',
+    'psycopg2',
+    'sqlalchemy',
     ]
 
 setup(name='scrambleapi',
